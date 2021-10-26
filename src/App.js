@@ -1,10 +1,14 @@
 import React from 'react';
+import Board from "./components/Board";
+import BoardsLayout from "./components/BoardsLayout";
 
 const App = () => {
     return (
-        <div>
-          <h1>Привет, скоро тут будет трелло, и вообще все изменится до неузнаваеммости</h1>
-        </div>
+        <BoardsLayout>
+            <Board />
+            <Board />
+            <Board />
+        </BoardsLayout>
     );
 };
 
