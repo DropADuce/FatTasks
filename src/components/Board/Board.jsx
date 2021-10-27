@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from "@emotion/styled";
-import {Button, IconButton, InputBase, Paper} from "@mui/material";
-import {Clear} from "@mui/icons-material";
-import Header from "./Board/Parts/Header";
+import Header from "./Parts/Header";
+import Content from "./Parts/Content";
+import CardSubmitter from "./Parts/CardSubmitter";
 
 const BoardContext = styled.div`
   height: 100%;
@@ -34,83 +34,13 @@ const BoardWrapper = styled.div`
   }
 `
 
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  height: 100%;
-`
-
-const Card = styled.div`
-  background-color: #fff;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 7px;
-  cursor: grab;
-
-  ${props => props.isAdd && `
-  background-color: rgba(0,0,0,.1);
-  cursor: pointer;
-  :hover {
-    background-color: rgba(0,0,0,.3); 
-    color: lightslategray; 
-  }
-  `}
-`
-const StyledArea = styled(InputBase)`
-  padding: 8px;
-  margin: 8px 8px 8px 0;
-  background: #fff;
-`
-
-const StyledPaper = styled(Paper)`
-  margin: 12px 8px;
-`
-
-const StyledButton = styled(Button)`
-  background: green;
-  color: #fff;
-
-  :hover {
-    background: #5AAc44;
-  }
-`
-
-const AddItemsButtons = styled.div`
-  margin: 8px;
-`
-
-const Board = () => {
+const Board = (props) => {
     return (
         <BoardContext>
             <BoardWrapper>
-                <Header/>
-                <ContentWrapper>
-                    <Card>
-                        Тут задача из карточки
-                    </Card>
-                    <Card>
-                        Тут задача из карточки
-                    </Card>
-                    <Card>
-                        Тут задача из карточки
-                    </Card>
-                    <Card>
-                        Тут задача из карточки
-                    </Card>
-                    <div>
-                        <Card isAdd> + Добавить карточку </Card>
-                        <StyledPaper>
-                            <StyledArea multiline fullWidth placeholder={'Введите текст новой карточки'}/>
-                        </StyledPaper>
-                        <AddItemsButtons>
-                            <StyledButton>Добавить</StyledButton>
-                            <IconButton>
-                                <Clear/>
-                            </IconButton>
-                        </AddItemsButtons>
-                    </div>
-                </ContentWrapper>
+                <Header title={props.title}/>
+                <Content cards={props.cards} boardId={props.id}/>
+                <CardSubmitter />
             </BoardWrapper>
         </BoardContext>
     );

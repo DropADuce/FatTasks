@@ -1,6 +1,6 @@
-import React from 'react';
-import Card from "./Card";
-import {Button, IconButton, InputBase, Paper} from "@mui/material";
+import React, {useState} from 'react';
+import Card from "../../Card/Card";
+import {Button, Collapse, IconButton, InputBase, Paper} from "@mui/material";
 import {Clear} from "@mui/icons-material";
 import styled from "@emotion/styled";
 
@@ -27,19 +27,36 @@ const AddItemsButtons = styled.div`
   margin: 8px;
 `
 
-const CardSubmitter = () => {
+const CardSubmitter = ({type}) => {
+
+    const [open, setOpen] = useState(false)
+
     return (
         <div>
-            <Card isAdd> + Добавить карточку </Card>
-            <StyledPaper>
-                <StyledArea multiline fullWidth placeholder={'Введите текст новой карточки'}/>
-            </StyledPaper>
-            <AddItemsButtons>
-                <StyledButton>Добавить</StyledButton>
-                <IconButton>
-                    <Clear/>
-                </IconButton>
-            </AddItemsButtons>
+            <Collapse in={!open}>
+                <Card isAdd title={type === 'board' ? '+ Добавить доску' : '+ Добавить карточку'} setOpen={setOpen}/>
+            </Collapse>
+            <Collapse in={open}>
+                <StyledPaper>
+                    <StyledArea
+                        multiline
+                        fullWidth
+                        autofocus
+                        placeholder={'Введите текст новой карточки'}
+                        onBlur={() => {
+                            setOpen(false)
+                        }}
+                    />
+                </StyledPaper>
+                <AddItemsButtons>
+                    <StyledButton onClick={() => setOpen(false)}>
+                        Добавить
+                    </StyledButton>
+                    <IconButton onClick={() => setOpen(false)}>
+                        <Clear/>
+                    </IconButton>
+                </AddItemsButtons>
+            </Collapse>
         </div>
     );
 };
