@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from "@emotion/styled";
 import {Button, IconButton, InputBase, Paper} from "@mui/material";
 import {Clear} from "@mui/icons-material";
+import Header from "./Board/Parts/Header";
 
 const BoardContext = styled.div`
   height: 100%;
@@ -80,26 +81,10 @@ const AddItemsButtons = styled.div`
 `
 
 const Board = () => {
-
-    const [editMode, setEditMode] = useState(false)
-    const [headerValue, setHeaderValue] = useState('')
-
     return (
         <BoardContext>
             <BoardWrapper>
-                {editMode ?
-                    <input
-                        className={'header'}
-                        autoFocus
-                        onBlur={() => setEditMode(false)}
-                        onChange={e => setHeaderValue(e.target.value)}
-                    />
-                    :
-                    <div className={'header'} onClick={() => setEditMode(true)}>
-                        {headerValue || 'Заголовок карточки'}
-                    </div>
-                }
-
+                <Header/>
                 <ContentWrapper>
                     <Card>
                         Тут задача из карточки
