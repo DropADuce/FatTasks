@@ -1,17 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import useAction from "../../../state/reducers/useAction";
 
-const Header = ({title}) => {
-
+const Header = ({title, id}) => {
     const [editMode, setEditMode] = useState(false)
     const [headerValue, setHeaderValue] = useState(title)
+    const {SetHeader} = useAction()
+    useEffect(() => setHeaderValue(() => title), [title])
 
     return (
         <>
             {editMode ?
                 <input
+                    value={headerValue}
                     className={'header'}
                     autoFocus
-                    onBlur={() => setEditMode(false)}
+                    onBlur={() => {
+                        SetHeader(id, headerValue)
+                        setEditMode(false)
+                    }}
                     onChange={e => setHeaderValue(e.target.value)}
                 />
                 :

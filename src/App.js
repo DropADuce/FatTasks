@@ -8,7 +8,7 @@ const App = () => {
     const {boardsIds, boards} = useSelector(state => state.cards)
     return (
         <BoardsLayout>
-            {boardsIds.map(board => <Board key={board} {...boards[board]}/>)}
+            {boardsIds.map(board => <Board key={board} id={board} {...boards[board]}/>)}
             <CardSubmitter type={'board'}/>
         </BoardsLayout>
     );

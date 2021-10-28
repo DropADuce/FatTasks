@@ -38,9 +38,9 @@ const Board = (props) => {
     return (
         <BoardContext>
             <BoardWrapper>
-                <Header title={props.title}/>
+                <Header title={props.title} id={props.id}/>
                 <Content cards={props.cards} boardId={props.id}/>
-                <CardSubmitter />
+                <CardSubmitter boardId={props.id}/>
             </BoardWrapper>
         </BoardContext>
     );
