@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import Card from "../../Card/Card";
 import {Button, Collapse, IconButton, InputBase, Paper} from "@mui/material";
-import {Clear} from "@mui/icons-material";
+import {Add, Clear} from "@mui/icons-material";
 import styled from "@emotion/styled";
+import {CardsActionCreators} from "../../../state/reducers/cards/CardsActions";
+import useAction from "../../../state/reducers/useAction";
 
 const StyledArea = styled(InputBase)`
   padding: 8px;
@@ -27,9 +29,11 @@ const AddItemsButtons = styled.div`
   margin: 8px;
 `
 
-const CardSubmitter = ({type}) => {
-
+const CardSubmitter = ({type, boardId}) => {
     const [open, setOpen] = useState(false)
+    const [inputValue, setInputValue] = useState('')
+
+    const {AddBoard, AddCard} = useAction()
 
     return (
         <div>
@@ -46,13 +50,26 @@ const CardSubmitter = ({type}) => {
                         onBlur={() => {
                             setOpen(false)
                         }}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
                     />
                 </StyledPaper>
                 <AddItemsButtons>
-                    <StyledButton onClick={() => setOpen(false)}>
+                    <StyledButton
+                        onMouseDown={e => e.preventDefault()}
+                        onClick={() => {
+                            type === 'board' ? AddBoard(inputValue) : AddCard(boardId, inputValue)
+                            setOpen(false)
+                            setInputValue('')
+                        }}>
                         Добавить
                     </StyledButton>
-                    <IconButton onClick={() => setOpen(false)}>
+                    <IconButton
+                        onMouseDown={e => e.preventDefault()}
+                        onClick={() => {
+                            setInputValue('')
+                            setOpen(false)
+                        }}>
                         <Clear/>
                     </IconButton>
                 </AddItemsButtons>
