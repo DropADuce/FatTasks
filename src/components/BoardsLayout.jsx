@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from "styled-components";
+import {DragDropContext, Droppable} from "react-beautiful-dnd";
+import {useSelector} from "react-redux";
+import Board from "./Board/Board";
+import CardSubmitter from "./Board/Parts/CardSubmitter";
 
 const Boards = styled.div`
   width: 100%;
@@ -9,9 +13,7 @@ const Boards = styled.div`
 
 const BoardsContext = styled.div`
   position: absolute;
-  display: flex;
-  justify-content: flex-start;
-  padding: 20px;
+  margin: 24px;
   top: 0;
   left: 0;
   right: 0;
@@ -19,13 +21,26 @@ const BoardsContext = styled.div`
   overflow-y: hidden;
 `
 
-const BoardsLayout = ({children}) => {
+const BoardsLayout = () => {
+
+    const {boardsIds, boards} = useSelector(state => state.cards)
+
     return (
-        <Boards>
-            <BoardsContext>
-                {children}
-            </BoardsContext>
-        </Boards>
+        <DragDropContext>
+            <Droppable droppableId={'droppable-zone'} type={'list'} direction={'horizontal'}>
+                {provided => (
+                    <Boards ref={provided.innerRef} {...provided.droppableProps}>
+                        <BoardsContext>
+                            {boardsIds.map((board, index) => <Board key={board}
+                                                                    id={board}
+                                                                    index={index}
+                                                                    {...boards[board]}/>)}
+                            <CardSubmitter type={'board'}/>
+                        </BoardsContext>
+                    </Boards>
+                )}
+            </Droppable>
+        </DragDropContext>
     );
 };
 

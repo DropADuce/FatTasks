@@ -3,14 +3,11 @@ import BoardsLayout from "./components/BoardsLayout";
 import CardSubmitter from "./components/Board/Parts/CardSubmitter";
 import {useSelector} from "react-redux";
 import Board from "./components/Board/Board";
+import {DragDropContext} from "react-beautiful-dnd";
 
 const App = () => {
-    const {boardsIds, boards} = useSelector(state => state.cards)
     return (
-        <BoardsLayout>
-            {boardsIds.map(board => <Board key={board} id={board} {...boards[board]}/>)}
-            <CardSubmitter type={'board'}/>
-        </BoardsLayout>
+        <BoardsLayout />
     );
 };
 
