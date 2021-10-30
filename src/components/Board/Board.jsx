@@ -3,19 +3,14 @@ import styled from "@emotion/styled";
 import Header from "./Parts/Header";
 import Content from "./Parts/Content";
 import CardSubmitter from "./Parts/CardSubmitter";
+import {Draggable} from "react-beautiful-dnd";
 
-const BoardContext = styled.div`
-  height: 100%;
-`
 
 const BoardWrapper = styled.div`
   width: 300px;
-  background-color: rgba(0, 0, 0, .2);
-  border-radius: 7px;
   margin: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  display: inline-block;
+  height: 100%;
 
   & .header {
     padding: 8px;
@@ -34,15 +29,29 @@ const BoardWrapper = styled.div`
   }
 `
 
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-height: 100%;
+  background-color: rgba(0, 0, 0, .2);
+  border-radius: 7px;
+`
+
 const Board = (props) => {
     return (
-        <BoardContext>
-            <BoardWrapper>
-                <Header title={props.title} id={props.id}/>
-                <Content cards={props.cards} boardId={props.id}/>
-                <CardSubmitter boardId={props.id}/>
-            </BoardWrapper>
-        </BoardContext>
+        <Draggable draggableId={props.id} index={props.index}>
+            {provided => (
+                <BoardWrapper ref={provided.innerRef} id={props.id} {...provided.draggableProps}
+                              {...provided.dragHandleProps}>
+                    <FlexWrapper>
+                        <Header title={props.title} id={props.id}/>
+                        <Content cards={props.cards} boardId={props.id}/>
+                        <CardSubmitter boardId={props.id}/>
+                    </FlexWrapper>
+                </BoardWrapper>
+            )}
+        </Draggable>
     );
 };
 

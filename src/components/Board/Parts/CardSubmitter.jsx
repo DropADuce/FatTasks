@@ -1,10 +1,18 @@
 import React, {useState} from 'react';
-import Card from "../../Card/Card";
+import Card, {AddItemCard} from "../../Card/Card";
 import {Button, Collapse, IconButton, InputBase, Paper} from "@mui/material";
 import {Add, Clear} from "@mui/icons-material";
 import styled from "@emotion/styled";
 import {CardsActionCreators} from "../../../state/reducers/cards/CardsActions";
 import useAction from "../../../state/reducers/useAction";
+
+const SubmitterWrapper = styled.div`
+  margin: 8px 0;
+  ${props => props.type === 'board' && `
+    display: inline-block;
+    vertical-align: top;
+  `}
+`
 
 const StyledArea = styled(InputBase)`
   padding: 8px;
@@ -36,16 +44,16 @@ const CardSubmitter = ({type, boardId}) => {
     const {AddBoard, AddCard} = useAction()
 
     return (
-        <div>
+        <SubmitterWrapper type={type}>
             <Collapse in={!open}>
-                <Card isAdd title={type === 'board' ? '+ Добавить доску' : '+ Добавить карточку'} setOpen={setOpen}/>
+                <AddItemCard isAdd title={type === 'board' ? '+ Добавить доску' : '+ Добавить карточку'} setOpen={setOpen}/>
             </Collapse>
             <Collapse in={open}>
                 <StyledPaper>
                     <StyledArea
                         multiline
                         fullWidth
-                        autofocus
+                        autoFocus
                         placeholder={'Введите текст новой карточки'}
                         onBlur={() => {
                             setOpen(false)
@@ -74,7 +82,7 @@ const CardSubmitter = ({type, boardId}) => {
                     </IconButton>
                 </AddItemsButtons>
             </Collapse>
-        </div>
+        </SubmitterWrapper>
     );
 };
 

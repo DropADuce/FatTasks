@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "@emotion/styled";
+import {Draggable} from "react-beautiful-dnd";
 
 const StyledCard = styled.div`
   background-color: #fff;
@@ -19,11 +20,25 @@ const StyledCard = styled.div`
   `}
 `
 
-const Card = ({setOpen, title, isAdd}) => {
+export const AddItemCard = ({title, setOpen}) => {
+    return <StyledCard isAdd={true} onClick={() => setOpen(true)}>
+        {title}
+    </StyledCard>
+}
+
+const Card = ({title, id, index}) => {
     return (
-        <StyledCard isAdd={isAdd} onClick={() => isAdd && setOpen(true)}>
-            {title}
-        </StyledCard>
+        <Draggable draggableId={id} index={index}>
+            {provided => (
+                <div>
+                    <StyledCard isAdd={false}
+                                ref={provided.innerRef} {...provided.draggableProps}
+                                {...provided.dragHandleProps}>
+                        {title}
+                    </StyledCard>
+                </div>
+            )}
+        </Draggable>
     );
 };
 

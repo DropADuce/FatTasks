@@ -1,5 +1,5 @@
-import {ADD_BOARD, ADD_CARD, SET_HEADER} from "./CardsActions";
-import uuid from "uuid";
+import {ADD_BOARD, ADD_CARD, MOVE_BOARD, SET_HEADER} from "./CardsActions";
+import {v4 as uuid} from "uuid";
 
 const initialState = {
     boards: {
@@ -8,6 +8,54 @@ const initialState = {
             cards: [
                 {
                     id: 'first-card',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card1',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card2',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card3',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card4',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card5',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card6',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card7',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card8',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card9',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card10',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card11',
+                    title: 'Поспать'
+                },
+                {
+                    id: 'first-card12',
                     title: 'Поспать'
                 }
             ]
@@ -39,6 +87,12 @@ export const cardsReducer = (state = initialState, action) => {
             const currentBoard = {...state.boards[boardId]}
             currentBoard.title = header
             return {...state, boards: {...state.boards, [boardId]: currentBoard}}
+        }
+        case MOVE_BOARD: {
+            const newIds = [...state.boardsIds]
+            newIds.splice(action.payload.source.index, 1)
+            newIds.splice(action.payload.destination.index, 0, action.payload.draggableId)
+            return {...state, boardsIds: newIds}
         }
         default:
             return state
