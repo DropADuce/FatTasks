@@ -19,6 +19,7 @@ const Content = ({cards, boardId}) => {
                 <ContentWrapper ref={provided.innerRef} {...provided.droppableProps}>
                     {cards.map((card, index) => <Card key={card.id} title={card.title} id={card.id}
                                                       index={index}/>)}
+                    {provided.placeholder}
                 </ContentWrapper>
             )}
         </Droppable>
