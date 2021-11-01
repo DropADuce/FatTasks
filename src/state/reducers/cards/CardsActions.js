@@ -8,5 +8,6 @@ export const CardsActionCreators = {
     AddBoard: boardTitle => ({type: ADD_BOARD, payload: boardTitle}),
     AddCard: (boardId, title) => ({type: ADD_CARD, payload: {boardId, title}}),
     SetHeader: (boardId, header) => ({type: SET_HEADER, payload: {boardId, header}}),
-    MoveBoard: (source, destination, draggableId) => ({type: MOVE_BOARD, payload: {source, destination, draggableId}})
+    MoveBoard: (source, destination, draggableId) => ({type: MOVE_BOARD, payload: {source, destination, draggableId}}),
+    MoveCards: (source, destination, draggableId) => ({type: MOVE_CARDS, payload: {source, destination, draggableId}})
 }

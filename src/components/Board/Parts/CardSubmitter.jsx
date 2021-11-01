@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import Card, {AddItemCard} from "../../Card/Card";
+import {AddItemCard} from "../../Card/Card";
 import {Button, Collapse, IconButton, InputBase, Paper} from "@mui/material";
-import {Add, Clear} from "@mui/icons-material";
+import {Clear} from "@mui/icons-material";
 import styled from "@emotion/styled";
-import {CardsActionCreators} from "../../../state/reducers/cards/CardsActions";
 import useAction from "../../../state/reducers/useAction";
 
 const SubmitterWrapper = styled.div`

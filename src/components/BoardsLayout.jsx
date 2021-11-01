@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from "styled-components";
 import {DragDropContext, Droppable} from "react-beautiful-dnd";
 import {useSelector} from "react-redux";
@@ -23,13 +23,14 @@ const BoardsContext = styled.div`
 `
 
 const BoardsLayout = () => {
+    const {boardsIds, boards} = useSelector(state => state.cards)
+    const {MoveBoard, MoveCards} = useAction()
 
     const onDragEnd = ({source, destination, draggableId, type}) => {
-        MoveBoard(source, destination, draggableId)
+        if (type === 'list') {
+            MoveBoard(source, destination, draggableId)
+        } else MoveCards(source, destination, draggableId)
     }
-
-    const {boardsIds, boards} = useSelector(state => state.cards)
-    const {MoveBoard} = useAction()
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>

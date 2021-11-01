@@ -9,6 +9,7 @@ const ContentWrapper = styled.div`
   justify-content: flex-start;
   overflow-y: auto;
   max-height: 100%;
+  min-height: 50px;
 `
 
 const Content = ({cards, boardId}) => {
@@ -18,7 +19,6 @@ const Content = ({cards, boardId}) => {
                 <ContentWrapper ref={provided.innerRef} {...provided.droppableProps}>
                     {cards.map((card, index) => <Card key={card.id} title={card.title} id={card.id}
                                                       index={index}/>)}
-                    {provided.placeholder}
                 </ContentWrapper>
             )}
         </Droppable>
