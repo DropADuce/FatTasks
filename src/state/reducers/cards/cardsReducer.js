@@ -1,67 +1,10 @@
-import {ADD_BOARD, ADD_CARD, SET_HEADER} from "./CardsActions";
+import {ADD_BOARD, ADD_CARD, MOVE_BOARD, MOVE_CARDS, SET_HEADER} from "./CardsActions";
 import {v4 as uuid} from "uuid";
 
 const initialState = {
     boards: {
-        'first-board': {
-            title: 'В работе',
-            cards: [
-                {
-                    id: 'first-card',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card1',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card2',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card3',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card4',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card5',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card6',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card7',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card8',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card9',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card10',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card11',
-                    title: 'Поспать'
-                },
-                {
-                    id: 'first-card12',
-                    title: 'Поспать'
-                }
-            ]
-        }
     },
-    boardsIds: ['first-board']
+    boardsIds: []
 }
 
 export const cardsReducer = (state = initialState, action) => {
@@ -87,6 +30,25 @@ export const cardsReducer = (state = initialState, action) => {
             const currentBoard = {...state.boards[boardId]}
             currentBoard.title = header
             return {...state, boards: {...state.boards, [boardId]: currentBoard}}
+        }
+        case MOVE_BOARD: {
+            const newIds = [...state.boardsIds]
+            newIds.splice(action.payload.source.index, 1)
+            newIds.splice(action.payload.destination.index, 0, action.payload.draggableId)
+            return {...state, boardsIds: newIds}
+        }
+        case MOVE_CARDS: {
+            if (!action.payload.destination) return {...state}
+            const sourceList = {...state.boards[action.payload.source.droppableId]}
+            const destList = {...state.boards[action.payload.destination.droppableId]}
+            // нашли доски, теперь найдем карточку, которую перемещали
+            const sourceCard = {...(sourceList.cards.filter(card => card.id === action.payload.draggableId)[0])}
+            // После того как нашли карточку - удалим ее из списка источника
+            sourceList.cards.splice(action.payload.source.index, 1)
+            // И добавим ее в список приемник, после карточки, на которую делали перемещение
+            destList.cards.splice(action.payload.destination.index, 0, sourceCard)
+
+            return {...state, boards: {...state.boards, [sourceList.id]: sourceList, [destList.id]: destList}}
         }
         default:
             return state

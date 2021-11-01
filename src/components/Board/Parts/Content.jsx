@@ -9,6 +9,7 @@ const ContentWrapper = styled.div`
   justify-content: flex-start;
   overflow-y: auto;
   max-height: 100%;
+  min-height: 50px;
 `
 
 const Content = ({cards, boardId}) => {

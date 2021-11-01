@@ -4,6 +4,7 @@ import {DragDropContext, Droppable} from "react-beautiful-dnd";
 import {useSelector} from "react-redux";
 import Board from "./Board/Board";
 import CardSubmitter from "./Board/Parts/CardSubmitter";
+import useAction from "../state/reducers/useAction";
 
 const Boards = styled.div`
   width: 100%;
@@ -22,11 +23,17 @@ const BoardsContext = styled.div`
 `
 
 const BoardsLayout = () => {
-
     const {boardsIds, boards} = useSelector(state => state.cards)
+    const {MoveBoard, MoveCards} = useAction()
+
+    const onDragEnd = ({source, destination, draggableId, type}) => {
+        if (type === 'list') {
+            MoveBoard(source, destination, draggableId)
+        } else MoveCards(source, destination, draggableId)
+    }
 
     return (
-        <DragDropContext>
+        <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId={'droppable-zone'} type={'list'} direction={'horizontal'}>
                 {provided => (
                     <Boards ref={provided.innerRef} {...provided.droppableProps}>
